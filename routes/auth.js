@@ -7,6 +7,7 @@ const express = require('express');
 const  { check } = require('express-validator');
 const {validarCampos} = require('../middlewares/validar-campos')
 const router = express.Router();
+const {validarJWT} = require('../middlewares/validar-jwt')
 
 
 //El check se ocupa de validar un camo a las ves
@@ -22,7 +23,6 @@ router.post(
         check('email','El email es obligatorio').isEmail(),
         check('password','El password debe de ser de 6 caracteres').isLength({min: 6}),
         validarCampos
-
     ],
     crearUsuario)
 
@@ -35,6 +35,6 @@ router.post(
          ],
          loginUsuario)
 
-router.get('/renew',revalidarToken)
+router.get('/renew', validarJWT ,revalidarToken)
 
 module.exports = router;
